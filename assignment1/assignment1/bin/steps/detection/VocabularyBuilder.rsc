@@ -14,9 +14,7 @@ list[str] extractVocabulary(Requirement reqs) {
   
   result_vocabulary = [word | word <- {word | word <- list_of_words}];
   
-  println(result_vocabulary);
-  
-  return []; 
+  return result_vocabulary; 
 }
 
 list[str] abc(list[list[str]] list_of_lists) {

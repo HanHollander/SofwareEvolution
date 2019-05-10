@@ -14,10 +14,10 @@ alias Requirement = rel[str name, list[str] words];
 
 Requirement readHighlevelRequirements(DataSet grp) {
 	list[str] requirements = readRequirements(grp.dir, "high_level.txt");
-
+    
 	Requirement result = {};
 
-  for (str req <- requirements, /^<id:UC[0-9]+>/ := trim(req)) {
+  for (str req <- requirements, /^<id:F[0-9]+>/ := trim(req)) {
     list[str] reqWords = [];
     
     for (str line <- split("\n", trim(req))) {

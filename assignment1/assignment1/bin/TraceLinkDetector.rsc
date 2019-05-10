@@ -19,6 +19,7 @@ void gatherLinksGroup9() = gatherLinks(group9());
 void gatherLinks(DataSet grp) {
 	println("(1/7) Reading highlevel requirements");
 	Requirement highlevel = readHighlevelRequirements(grp);
+	println(highlevel);
 	println("(2/7) Reading lowlevel requirements");
 	Requirement lowlevel = readLowlevelRequirements(grp);
 	

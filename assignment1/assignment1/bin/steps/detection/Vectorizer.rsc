@@ -10,8 +10,33 @@ import Set;
 alias Vector = rel[str name, list[real] freq];
 
 Vector calculateVector(Requirement reqs, list[str] vocabulary) {
-	// REMOVE BELOW LINE, ONLY HERE TO MAKE THE TEMPLATES RUNNABLE
-	return {};
+    
+    map[str, int] occurences = ();
+    for (word <- vocabulary) {
+        counter = 0;
+        for (<_, words> <- reqs) {
+            if (word in words) {
+                counter = counter + 1;
+            }
+        }
+        occurences += (word: counter);
+    }
+    
+     
+    idfs = calculateInverseDocumentFrequency(occurences, vocabulary, reqs);
+    
+    
+    Vector result = {};
+    for (<name, words> <- reqs) {
+        list[real] req_vec = [];
+        for (word <- vocabulary) {
+            req_vec += caculateTermFrequency(word, words) * idfs[word];
+            true;
+        }
+        result += <name, req_vec>;
+    }
+    
+    return result;
 }
 
 @doc {

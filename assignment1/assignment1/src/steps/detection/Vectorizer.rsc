@@ -16,35 +16,27 @@ Vector calculateVector(Requirement reqs, list[str] vocabulary) {
         counter = 0;
         for (<_, words> <- reqs) {
             if (word in words) {
-                counter++;
+                counter = counter + 1;
             }
         }
-        occurences(word) = counter;
+        occurences += (word: counter);
     }
     
-    //occurences = [word : 
-    //
-    //
-    //
-    //
-    //requirements = rel[str name, list[str]]
-    //vocabulary = list[str]
-    //
-    //occurences = 
+     
+    idfs = calculateInverseDocumentFrequency(occurences, vocabulary, reqs);
     
     
+    Vector result = {};
+    for (<name, words> <- reqs) {
+        list[real] req_vec = [];
+        for (word <- vocabulary) {
+            req_vec += caculateTermFrequency(word, words) * idfs[word];
+            true;
+        }
+        result += <name, req_vec>;
+    }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    return result;
 }
 
 @doc {
