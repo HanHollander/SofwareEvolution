@@ -10,8 +10,41 @@ import Set;
 alias Vector = rel[str name, list[real] freq];
 
 Vector calculateVector(Requirement reqs, list[str] vocabulary) {
-	// REMOVE BELOW LINE, ONLY HERE TO MAKE THE TEMPLATES RUNNABLE
-	return {};
+    
+    map[str, int] occurences = ();
+    for (word <- vocabulary) {
+        counter = 0;
+        for (<_, words> <- reqs) {
+            if (word in words) {
+                counter++;
+            }
+        }
+        occurences(word) = counter;
+    }
+    
+    //occurences = [word : 
+    //
+    //
+    //
+    //
+    //requirements = rel[str name, list[str]]
+    //vocabulary = list[str]
+    //
+    //occurences = 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
 
 @doc {
