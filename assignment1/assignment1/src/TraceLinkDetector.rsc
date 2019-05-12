@@ -21,10 +21,11 @@ void gatherLinks(DataSet grp) {
 	Requirement highlevel = readHighlevelRequirements(grp);
 	println("(2/7) Reading lowlevel requirements");
 	Requirement lowlevel = readLowlevelRequirements(grp);
-	
+
 	println("(3/7) Removing stop words and apply stemming");
 	highlevel = stemWords(removeStopWords(highlevel));
 	lowlevel = stemWords(removeStopWords(lowlevel));
+	println("<highlevel>");
 	
 	println("(4/7) Building master vocabulary");
 	list[str] vocabulary = extractVocabulary(highlevel + lowlevel);

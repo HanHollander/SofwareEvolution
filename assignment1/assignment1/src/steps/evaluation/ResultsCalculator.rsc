@@ -29,6 +29,9 @@ private real calculateRecall(ConfusionMatrix cm) {
 }
 
 private real calculateFMeasure(real p, real r) {
+	if (p == 0 && r == 0) {
+		return 0.;
+	}
     return 2 * ((p*r)/(p+r));
 }
 
