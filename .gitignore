@@ -77,3 +77,12 @@ local.properties
 .cache-main
 .scala_dependencies
 .worksheet
+
+
+# Personal
+assignment1/assignment1/bin/*
+assignment1/assignment1/data/*
+assignment1/assignment1/build.properties
+assignment1/assignment1/.classpath
+assignment1/assignment1/.project
+
