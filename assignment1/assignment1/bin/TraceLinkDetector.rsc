@@ -19,7 +19,6 @@ void gatherLinksGroup9() = gatherLinks(group9());
 void gatherLinks(DataSet grp) {
 	println("(1/7) Reading highlevel requirements");
 	Requirement highlevel = readHighlevelRequirements(grp);
-	println(highlevel);
 	println("(2/7) Reading lowlevel requirements");
 	Requirement lowlevel = readLowlevelRequirements(grp);
 	
@@ -38,14 +37,14 @@ void gatherLinks(DataSet grp) {
 	
 	println("(7/7) Gathering trace links for different methods");
 	AllTraceLinks allLinks = constructLinks(sm);
-
-  writeTextValueFile(grp.dir + "tracelinks.result", allLinks);  
+	
+    writeTextValueFile(grp.dir + "tracelinks.result", allLinks);  
 	
 	println("Done");
 	
-	//for (int i <- [0..size(allLinks)]) {
-	//	printLinks(allLinks[i], i);
-	//}
+	for (int i <- [0..size(allLinks)]) {
+		printLinks(allLinks[i], i);
+	}
 }
 
 void printLinks(TraceLink links, int i) {

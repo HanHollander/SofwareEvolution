@@ -55,8 +55,10 @@ private str applyHighlevelFiltering(str orig) {
 }
 
 private str applyLowlevelLineFiltering(str origLine) {
+    //Remove things like "Name: " and "Authors:  ......"
+
 	// TODO: This is the spot to implement some extra filtering if wanted while reading in the lowlevel requirements
-	// This function gets called for EVERY word in the lowlevel requirements text
+	// This function gets called for EVERY line in the lowlevel requirements text
 	return origLine;
 }
 

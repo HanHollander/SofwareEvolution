@@ -22,7 +22,6 @@ TraceLink constructMethod3(SimilarityMatrix sm) {
   return {<high, low> | <high, low, score> <- sm, score >= 0.67*max_l(high, sm)};
 }
 
-
 real max_l(str high, SimilarityMatrix sm) {
     return max([score | <high_sm, low, score> <- sm, high_sm == high]);
 }
