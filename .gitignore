@@ -86,3 +86,8 @@ assignment1/assignment1/build.properties
 assignment1/assignment1/.classpath
 assignment1/assignment1/.project
 
+assignment2/assignment2/bin/*
+assignment2/assignment2/data/*
+assignment2/assignment2/build.properties
+assignment2/assignment2/.classpath
+assignment2/assignment2/.project
