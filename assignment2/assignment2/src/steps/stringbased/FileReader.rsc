@@ -5,6 +5,7 @@ import String;
 import List;
 import Map;
 import lang::java::m3::AST;
+import util::ProgressBar;
 
 alias MethodContent = map[loc,Content];
 alias Content = lrel[loc nr, str line];
@@ -12,7 +13,11 @@ alias Content = lrel[loc nr, str line];
 MethodContent readFiles(loc dir) = (() | it + readAndSplitInMethods(file) | file <- dir.ls) when exists(dir), isDirectory(dir);
 default MethodContent readFiles(loc dir) { throw "Unable to read files in dir \'<dir>\', does it exists and is it an directory?"; }
 
+int status = 0;
 MethodContent readAndSplitInMethods(loc file) {
+  status = (status + 1) % 40;
+  spinner(status / 10);
+  
   Content wholeFile = readAndAnnotateFile(file);
   
   Content selectPart(loc fragment) 
