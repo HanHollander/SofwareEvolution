@@ -50,6 +50,7 @@ ConfMatrix calculateConfMatrix(EClone expected, EClone actual, set[set[loc]] all
 	int fp = size(act - exp);
 	int tn = size(allCombs - exp - act);
 	int fn = size(exp - act);
+
 	ConfMatrix result = <tp,fp,tn,fn>;
 	return result;
 }
