@@ -25,15 +25,15 @@ Clone detectTypeOneAndTypeTwoClones(map[loc,Declaration] methods) {
 			for (loc floc2 <- methods) {
 				Declaration method2 = methods[floc2];
 				if (couldSubTreeBeAClone(method2) && floc1 != floc2 && !({floc1,floc2} in combinationsDone)) {
-					//try {
+					try {
 						CloneType cloneType = isClone(method1, method2);
 						if (cloneType != type3()) {
 							result += <floc1, floc2, cloneType, 100>;
 							result += <floc2, floc1, cloneType, 100>;
 						}
 						combinationsDone += {{floc1,floc2}};
-					//}
-					//catch: combinationsDone += {{floc1,floc2}};
+					}
+					catch: combinationsDone += {{floc1,floc2}};
 				}
 			}
 		}
@@ -48,8 +48,6 @@ CloneType prioritize(type1(), type1()) = type1();
 CloneType prioritize(type2(), type2()) = type2();
 CloneType prioritize(type1(), type2()) = type2();
 CloneType prioritize(type2(), type1()) = type2();
-CloneType prioritize(_, type3()) 	   = type3();
-CloneType prioritize(type3(), _) 	   = type3();
 
 // ===========
 // Declaration
@@ -63,14 +61,14 @@ CloneType isClone(	\method(Type retType1, str name1, list[Declaration] par1, lis
 			result = prioritize(result, isClone(par1[i], par2[i]));
 		}
 	} else {
-		return type3();
+		throw "Not a clone";
 	}
 	if (size(exc1) == size(exc2)) {
 		for (i <- [0..size(exc1)]) {
 			result = prioritize(result, isClone(exc1[i], exc2[i]));
 		}
 	} else {
-		return type3();
+		throw "Not a clone";
 	}
 	result = prioritize(result, isClone(impl1, impl2));
 	return result;
@@ -84,14 +82,14 @@ CloneType isClone(	\constructor(str name1, list[Declaration] par1, list[Expressi
 			result = prioritize(result, isClone(par1[i], par2[i]));
 		}
 	} else {
-		return type3();
+		throw "Not a clone";
 	}
 	if (size(exc1) == size(exc2)) {
 		for (i <- [0..size(exc1)]) {
 			result = prioritize(result, isClone(exc1[i], exc2[i]));
 		}
 	} else {
-		return type3();
+		throw "Not a clone";
 	}
 	result = prioritize(result, isClone(impl1, impl2));
 	return result;
@@ -105,7 +103,7 @@ CloneType isClone(	\variables(Type type1, list[Expression] frags1),
 			result = prioritize(result, isClone(frags1[i], frags2[i]));
 		}
 	} else {
-		return type3();
+		throw "Not a clone";
 	}
 	return result;
 }
@@ -123,7 +121,7 @@ CloneType isClone(	\class(list[Declaration] body1), \class(list[Declaration] bod
 			result = prioritize(result, isClone(body1[i], body2[i]));
 		}
 	} else {
-		return type3();
+		throw "Not a clone";
 	}
 	return result;
 }
@@ -141,7 +139,7 @@ CloneType isClone(	\newArray(Type type1, list[Expression] dim1, Expression init1
 			result = prioritize(result, isClone(dim1[i], dim2[i]));
 		}
 	} else {
-		return type3();
+		throw "Not a clone";
 	}
 	return prioritize(result, isClone(init1, init2));
 }
@@ -153,7 +151,7 @@ CloneType isClone(	\newArray(Type type1, list[Expression] dim1),
 			result = prioritize(result, isClone(dim1[i], dim2[i]));
 		}
 	} else {
-		return type3();
+		throw "Not a clone";
 	}
 	return result;
 }
@@ -164,20 +162,20 @@ CloneType isClone(\arrayInitializer(list[Expression] elem1), \arrayInitializer(l
 			result = prioritize(result, isClone(elem1[i], elem2[i]));
 		}
 	} else {
-		return type3();
+		throw "Not a clone";
 	}
 	return result;
 }
 CloneType isClone(\assignment(Expression lhs1, str op1, Expression rhs1), \assignment(Expression lhs2, str op2, Expression rhs2)) {
 	if (op1 != op2)
-		return type3();
+		throw "Not a clone";
 	return prioritize(isClone(lhs1, lhs2), isClone(rhs1, rhs2));
 }
 CloneType isClone(\cast(Type type1, Expression expr1), \cast(Type type2, Expression expr2))
 	= prioritize(isClone(type1, type2), isClone(expr1, expr2));
 CloneType isClone(\characterLiteral(str char1), \characterLiteral(str char2)) {
 	if (char1 != char2)
-		return type3();
+		throw "Not a clone";
 	return type1();
 }
 CloneType isClone(	\newObject(Expression expr1, Type type1, list[Expression] args1, Declaration class1),
@@ -188,7 +186,7 @@ CloneType isClone(	\newObject(Expression expr1, Type type1, list[Expression] arg
 			result = prioritize(result, isClone(args1[i], args2[i]));
 		}
 	} else {
-		return type3();
+		throw "Not a clone";
 	}
 	return prioritize(result, isClone(class1, class2));
 }
@@ -200,7 +198,7 @@ CloneType isClone(	\newObject(Expression expr1, Type type1, list[Expression] arg
 			result = prioritize(result, isClone(args1[i], args2[i]));
 		}
 	} else {
-		return type3();
+		throw "Not a clone";
 	}
 	return result;
 }
@@ -212,7 +210,7 @@ CloneType isClone(	\newObject(Type type1, list[Expression] args1, Declaration cl
 			result = prioritize(result, isClone(args1[i], args2[i]));
 		}
 	} else {
-		return type3();
+		throw "Not a clone";
 	}
 	return prioritize(result, isClone(class1, class2));
 }
@@ -224,7 +222,7 @@ CloneType isClone(	\newObject(Type type1, list[Expression] args1),
 			result = prioritize(result, isClone(args1[i], args2[i]));
 		}
 	} else {
-		return type3();
+		throw "Not a clone";
 	}
 	return result;
 }
@@ -237,13 +235,13 @@ CloneType isClone(	\conditional(Expression expr1, Expression then1, Expression e
 CloneType isClone(	\fieldAccess(bool isSuper1, Expression expr1, str name1),
 					\fieldAccess(bool isSuper2, Expression expr2, str name2)) {
 	if (isSuper1 != isSuper2)
-		return type3();
+		throw "Not a clone";
 	return prioritize(isClone(expr1, expr2), name1 == name2 ? type1() : type2());
 }
 CloneType isClone(	\fieldAccess(bool isSuper1, str name1),
 					\fieldAccess(bool isSuper2, str name2)) {
 	if (isSuper1 != isSuper2)
-		return type3();
+		throw "Not a clone";
 	return name1 == name2 ? type1() : type2();
 }
 CloneType isClone(\instanceof(Expression left1, Type right1), \instanceof(Expression left2, Type right2))
@@ -251,45 +249,45 @@ CloneType isClone(\instanceof(Expression left1, Type right1), \instanceof(Expres
 CloneType isClone(	\methodCall(bool isSuper1, Expression rec1, str name1, list[Expression] args1),
 					\methodCall(bool isSuper2, Expression rec2, str name2, list[Expression] args2)) {
 	if (isSuper1 != isSuper2)
-		return type3();
+		throw "Not a clone";
 	CloneType result = isClone(rec1, rec2);
 	if (size(args1) == size(args2)) {
 		for (i <- [0..size(args1)]) {
 			result = prioritize(result, isClone(args1[i], args2[i]));
 		}
 	} else {
-		return type3();
+		throw "Not a clone";
 	}
 	return prioritize(result, name1 == name2 ? type1() : type2());
 }
 CloneType isClone(	\methodCall(bool isSuper1, str name1, list[Expression] args1),
 					\methodCall(bool isSuper2, str name2, list[Expression] args2)) {
 	if (isSuper1 != isSuper2)
-		return type3();
+		throw "Not a clone";
 	CloneType result = name1 == name2 ? type1() : type2();
 	if (size(args1) == size(args2)) {
 		for (i <- [0..size(args1)]) {
 			result = prioritize(result, isClone(args1[i], args2[i]));
 		}
 	} else {
-		return type3();
+		throw "Not a clone";
 	}
 	return result;
 }
 CloneType isClone(\null(), \null()) = type1();
 CloneType isClone(\number(str num1), \number(str num2)) {
 	if (num1 != num2)
-		return type3();
+		throw "Not a clone";
 	return type1();
 }
 CloneType isClone(\booleanLiteral(bool boolVal1), \booleanLiteral(bool boolVal2)) {
 	if (boolVal1 != boolVal2)
-		return type3();
+		throw "Not a clone";
 	return type1();
 }
 CloneType isClone(\stringLiteral(str string1), \stringLiteral(str string2)) {
 	if (string1 != string2)
-		return type3();
+		throw "Not a clone";
 	return type1();
 }
 CloneType isClone(\type(Type type1), \type(Type type2)) = isClone(type1, type2);
@@ -304,17 +302,17 @@ CloneType isClone(\super(), \super()) = type1();
 CloneType isClone(\declarationExpression(Declaration decl1), \declarationExpression(Declaration decl2)) = isClone(decl1, decl2);
 CloneType isClone(\infix(Expression lhs1, str op1, Expression rhs1), \infix(Expression lhs2, str op2, Expression rhs2)) {
 	if (op1 != op2)
-		return type3();
+		throw "Not a clone";
 	return prioritize(isClone(lhs1, lhs2), isClone(rhs1, rhs2));
 }
 CloneType isClone(\postfix(Expression ope1, str opa1), \postfix(Expression ope2, str opa2)) {
 	if (opa1 != opa2)
-		return type3();
+		throw "Not a clone";
 	return isClone(ope1, ope2);
 }
 CloneType isClone(\prefix(str operator1, Expression operand1), \prefix(str operator2, Expression operand2)) {
 	if (operator1 != operator2)
-		return type3();
+		throw "Not a clone";
 	return isClone(operand1, operand2);
 }
 CloneType isClone(\simpleName(str name1), \simpleName(str name2)) = name1 == name2 ? type1() : type2();
@@ -326,7 +324,7 @@ CloneType isClone(\normalAnnotation(str name1, list[Expression] pairs1), \normal
 			result = prioritize(result, isClone(pairs1[i], pairs2[i]));
 		}
 	} else {
-		return type3();
+		throw "Not a clone";
 	}
 	return result;
 }
@@ -349,7 +347,7 @@ CloneType isClone(\block(list[Statement] stat1), \block(list[Statement] stat2)) 
 			result = prioritize(result, isClone(stat1[i], stat2[i]));
 		}
 	} else {
-		return type3();
+		throw "Not a clone";
 	}
 	return result;
 }
@@ -370,14 +368,14 @@ CloneType isClone(	\for(list[Expression] init1, Expression cond1, list[Expressio
 			result = prioritize(result, isClone(init1[i], init2[i]));
 		}
 	} else {
-		return type3();
+		throw "Not a clone";
 	}
 	if (size(upd1) == size(upd2)) {
 		for (i <- [0..size(upd1)]) {
 			result = prioritize(result, isClone(upd1[i], upd2[i]));
 		}
 	} else {
-		return type3();
+		throw "Not a clone";
 	}
 	return prioritize(result, isClone(body1, body2));
 }
@@ -389,14 +387,14 @@ CloneType isClone(	\for(list[Expression] init1, list[Expression] upd1, Statement
 			result = prioritize(result, isClone(init1[i], init2[i]));
 		}
 	} else {
-		return type3();
+		throw "Not a clone";
 	}
 	if (size(upd1) == size(upd2)) {
 		for (i <- [0..size(upd1)]) {
 			result = prioritize(result, isClone(upd1[i], upd2[i]));
 		}
 	} else {
-		return type3();
+		throw "Not a clone";
 	}
 	return prioritize(result, isClone(body1, body2));
 }
@@ -415,7 +413,7 @@ CloneType isClone(\switch(Expression expr1, list[Statement] stats1), \switch(Exp
 			result = prioritize(result, isClone(stats1[i], stats2[i]));
 		}
 	} else {
-		return type3();
+		throw "Not a clone";
 	}
 	return result;
 }
@@ -431,7 +429,7 @@ CloneType isClone(\try(Statement body1, list[Statement] catch1), \try(Statement 
 			result = prioritize(result, isClone(catch1[i], catch2[i]));
 		}
 	} else {
-		return type3();
+		throw "Not a clone";
 	}
 	return result;
 }
@@ -443,7 +441,7 @@ CloneType isClone(	\try(Statement body1, list[Statement] catch1, Statement fin1)
 			result = prioritize(result, isClone(catch1[i], catch2[i]));
 		}
 	} else {
-		return type3();
+		throw "Not a clone";
 	}
 	return prioritize(result, isClone(fin1, fin2));
 }
@@ -463,7 +461,7 @@ CloneType isClone(	\constructorCall(bool isSuper1, Expression expr1, list[Expres
 			result = prioritize(result, isClone(args1[i], args2[i]));
 		}
 	} else {
-		return type3();
+		throw "Not a clone";
 	}
 	return result;
 }
@@ -475,7 +473,7 @@ CloneType isClone(	\constructorCall(bool isSuper1, list[Expression] args1),
 			result = prioritize(result, isClone(args1[i], args2[i]));
 		}
 	} else {
-		return type3();
+		throw "Not a clone";
 	}
 	return result;
 }
@@ -496,7 +494,7 @@ CloneType isClone(unionType(list[Type] types1), unionType(list[Type] types2)) {
 			result = prioritize(result, isClone(types1[i], types2[i]));
 		}
 	} else {
-		return type3();
+		throw "Not a clone";
 	}
 	return result;
 }
@@ -532,7 +530,7 @@ CloneType isClone(\onDemand(), \onDemand()) = type1();
 CloneType isClone(\annotation(Expression a1), \annotation(Expression a2)) = isClone(a1,a2);
 
 CloneType isClone(_,_) {
-	return type3();
+	throw "Not a clone";
 }
 
 
