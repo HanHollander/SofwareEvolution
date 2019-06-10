@@ -3,6 +3,7 @@ module AstBasedCloneDetector
 import lang::java::m3::AST;
 
 import steps::astbased::FileParser;
+import steps::stringbased::FileReader;
 import steps::astbased::CloneDetector;
 import DataTypes;
 import Exception;
@@ -13,6 +14,7 @@ import lang::csv::IO;
 
 import IO;
 import Map;
+import Set;
 
 void detectClonesUsingAstsOnSmallSet() = detectClonesUsingAsts(|project://assignment2/data/small|, true);
 void detectClonesUsingAstsOnLargeSet() = detectClonesUsingAsts(|project://assignment2/data/large|, false);
