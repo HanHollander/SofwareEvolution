@@ -28,9 +28,9 @@ void findPrivateMethods() {
   }
 }
 
-bool couldSubTreeBeAClone(\m:method(_,_,_,_, Statement impl)) = (m.src.end.line - impl.src.begin.line) >= minCloneLineSize();
-bool couldSubTreeBeAClone(\c:constructor(_,_,_, Statement impl)) = (c.src.end.line - impl.src.begin.line) >= minCloneLineSize();
-default bool couldSubTreeBeAClone(Declaration d) = d.src.end.line - d.src.begin.line >= minCloneLineSize();
+bool couldSubTreeBeAClone(\m:method(_,_,_,_, Statement impl)) = (m.src.end.line - impl.src.begin.line)+1 >= minCloneLineSize();
+bool couldSubTreeBeAClone(\c:constructor(_,_,_, Statement impl)) = (c.src.end.line - impl.src.begin.line)+1 >= minCloneLineSize();
+//default bool couldSubTreeBeAClone(Declaration d) = d.src.end.line - d.src.begin.line >= minCloneLineSize();
 
 @memo
 private int minCloneLineSize() = 10;
