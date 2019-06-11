@@ -32,7 +32,7 @@ files = [
 tenures = [
     ('change-tenure_change', 'author-first_change'),
     ('change-tenure_review', 'author-first_review'),
-    ('change_tenure_approval_blocking', 'author-first_approval_blocking')
+    ('change-tenure_approval_blocking', 'author-first_approval_blocking')
 ]
 
 
@@ -62,6 +62,7 @@ def generate_tenures(project):
         if os.path.isfile(path):
             os.remove(path)
         out = open(path, 'w+')
+        out.write('ch_changeIdNum,' + tenure[7:] + '\n')
         for change in data['change-author'].keys():
             try:
                 tenure_value = (data['change-created'][change] - data[source][data['change-author'][change]]).days
