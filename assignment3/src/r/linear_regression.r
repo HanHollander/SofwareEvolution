@@ -4,17 +4,19 @@ tenure_change <- read.csv(file="../../data/csv/eclipse/predictor/change-tenure_c
 tenure_review <- read.csv(file="../../data/csv/eclipse/predictor/change-tenure_review.csv",header=TRUE,sep=",")
 tenure_approval_blocking <- read.csv(file="../../data/csv/eclipse/predictor/change-tenure_approval_blocking.csv",header=TRUE,sep=",")
 activity_change <- read.csv(file="../../data/csv/eclipse/predictor/change-activity_change.csv",header=TRUE,sep=",")
-# activity_review <- read.csv(file="../../data/csv/eclipse/predictor/change-activity_review.csv",header=TRUE,sep=",")
-# activity_approval_blocking <- read.csv(file="../../data/csv/eclipse/predictor/change-activity_approval_blocking.csv",header=TRUE,sep=",")
+activity_review <- read.csv(file="../../data/csv/eclipse/predictor/change-activity_review.csv",header=TRUE,sep=",")
+activity_approval_blocking <- read.csv(file="../../data/csv/eclipse/predictor/change-activity_approval_blocking.csv",header=TRUE,sep=",")
 
 
 rp_tc <- merge(review_period, tenure_change, by = "ch_changeIdNum")
 rp_tr <- merge(review_period, tenure_review, by = "ch_changeIdNum")
 rp_tab <- merge(review_period, tenure_approval_blocking, by = "ch_changeIdNum")
 rp_ac <- merge(review_period, activity_change, by = "ch_changeIdNum")
-# rp_ar <- merge(review_period, activity_review, by = "ch_changeIdNum")
-# rp_aab <- merge(review_period, activity_approval_blocking, by = "ch_changeIdNum")
+rp_ar <- merge(review_period, activity_review, by = "ch_changeIdNum")
+rp_aab <- merge(review_period, activity_approval_blocking, by = "ch_changeIdNum")
 
+print(names(rp_ac))
+print(names(rp_aab))
 
 plot(x=rp_tc$DATEDIFF.hist2.hist_createdTime..hist1.hist_createdTime.,
     y=rp_tc$tenure_change,
@@ -38,23 +40,23 @@ plot(x=rp_tab$DATEDIFF.hist2.hist_createdTime..hist1.hist_createdTime.,
 
 
 plot(x=rp_ac$DATEDIFF.hist2.hist_createdTime..hist1.hist_createdTime.,
-    y=rp_ac$activity_change,
+    y=rp_ac$c,
     main="Review period of change ~ Change activity of author",
     type="p",
-    log="y")  # scatterplot
+    log="")  # scatterplot
 
 
-# plot(x=rp_ar$DATEDIFF.hist2.hist_createdTime..hist1.hist_createdTime.,
-#     y=rp_ar$activity_review,
-#     main="Review period of change ~ Review activity of author",
-#     type="p",
-#     log="")  # scatterplot
-#
-# plot(x=rp_aab$DATEDIFF.hist2.hist_createdTime..hist1.hist_createdTime.,
-#     y=rp_aab$activity_approval_blocking,
-#     main="Review period of change ~ Approval/blocking activity of author",
-#     type="p",
-#     log="")  # scatterplot
+plot(x=rp_ar$DATEDIFF.hist2.hist_createdTime..hist1.hist_createdTime.,
+    y=rp_ar$COUNT.ch_changeIdNum.,
+    main="Review period of change ~ Review activity of author",
+    type="p",
+    log="")  # scatterplot
+
+plot(x=rp_aab$DATEDIFF.hist2.hist_createdTime..hist1.hist_createdTime.,
+    y=rp_aab$COUNT.ch_changeIdNum.,
+    main="Review period of change ~ Approval/blocking activity of author",
+    type="p",
+    log="")  # scatterplot
 
 
 # ##Generate some data
