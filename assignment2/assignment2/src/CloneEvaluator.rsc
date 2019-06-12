@@ -95,12 +95,13 @@ void printBigConfMatrix(EClone expTOneClones, EClone expTTwoClones, EClone expTT
 	'
 	"
 	);
+	println(expNot & actTTwoClones);
 }
 
 void printAverages(MatMetrics t1, MatMetrics t2, MatMetrics t3) {
 	println("Overall precision: <(t1.p + t2.p + t3.p)/ 3>");
 	println("Overall recall: <(t1.r + t2.r + t3.r)/ 3>");
-	println("Overall recall: <(t1.f + t2.f + t3.f)/ 3>");
+	println("Overall F-measure: <(t1.f + t2.f + t3.f)/ 3>");
 }
 
 
