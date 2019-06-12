@@ -1,29 +1,61 @@
 
-dependent <- read.csv(file="../../data/csv/eclipse/dependent/change-review_period.csv",header=TRUE,sep=",")
+review_period <- read.csv(file="../../data/csv/eclipse/dependent/change-review_period.csv",header=TRUE,sep=",")
+tenure_change <- read.csv(file="../../data/csv/eclipse/predictor/change-tenure_change.csv",header=TRUE,sep=",")
+tenure_review <- read.csv(file="../../data/csv/eclipse/predictor/change-tenure_review.csv",header=TRUE,sep=",")
+tenure_approval_blocking <- read.csv(file="../../data/csv/eclipse/predictor/change-tenure_approval_blocking.csv",header=TRUE,sep=",")
+activity_change <- read.csv(file="../../data/csv/eclipse/predictor/change-activity_change.csv",header=TRUE,sep=",")
+# activity_review <- read.csv(file="../../data/csv/eclipse/predictor/change-activity_review.csv",header=TRUE,sep=",")
+# activity_approval_blocking <- read.csv(file="../../data/csv/eclipse/predictor/change-activity_approval_blocking.csv",header=TRUE,sep=",")
 
-predictor <- read.csv(file="../../data/csv/eclipse/predictor/change-tenure_change.csv",header=TRUE,sep=",")
 
-merged <- merge(dependent, predictor, by = "ch_changeIdNum")
-# names(merged)[2]
+rp_tc <- merge(review_period, tenure_change, by = "ch_changeIdNum")
+rp_tr <- merge(review_period, tenure_review, by = "ch_changeIdNum")
+rp_tab <- merge(review_period, tenure_approval_blocking, by = "ch_changeIdNum")
+rp_ac <- merge(review_period, activity_change, by = "ch_changeIdNum")
+# rp_ar <- merge(review_period, activity_review, by = "ch_changeIdNum")
+# rp_aab <- merge(review_period, activity_approval_blocking, by = "ch_changeIdNum")
 
-plot(x=merged$DATEDIFF.hist2.hist_createdTime..hist1.hist_createdTime., y=merged$tenure_change,
-    main="Review period ~ Change (ecosystem) tenure",
+
+plot(x=rp_tc$DATEDIFF.hist2.hist_createdTime..hist1.hist_createdTime.,
+    y=rp_tc$tenure_change,
+    main="Review period of change ~ Change (ecosystem) tenure of author",
     type="p",
     log="")  # scatterplot
 
-merged_nozeros <- merged[apply(merged, 1, function(row) all(row != 0)),]
 
-plot(x=merged_nozeros$DATEDIFF.hist2.hist_createdTime..hist1.hist_createdTime., y=merged_nozeros$tenure_change,
-    main="Review period ~ Change (ecosystem) tenure",
+plot(x=rp_tr$DATEDIFF.hist2.hist_createdTime..hist1.hist_createdTime.,
+    y=rp_tr$tenure_review,
+    main="Review period of change ~ Review tenure of author",
     type="p",
     log="")  # scatterplot
 
-merged_noones <- merged_nozeros[apply(merged_nozeros, 1, function(row) all(row != 0)),]
 
-plot(x=merged_noones$DATEDIFF.hist2.hist_createdTime..hist1.hist_createdTime., y=merged_noones$tenure_change,
-    main="Review period ~ Change (ecosystem) tenure",
+plot(x=rp_tab$DATEDIFF.hist2.hist_createdTime..hist1.hist_createdTime.,
+    y=rp_tab$tenure_approval_blocking,
+    main="Review period of change ~ Approval/blocking tenure of author",
     type="p",
-    log="")
+    log="")  # scatterplot
+
+
+plot(x=rp_ac$DATEDIFF.hist2.hist_createdTime..hist1.hist_createdTime.,
+    y=rp_ac$activity_change,
+    main="Review period of change ~ Change activity of author",
+    type="p",
+    log="y")  # scatterplot
+
+
+# plot(x=rp_ar$DATEDIFF.hist2.hist_createdTime..hist1.hist_createdTime.,
+#     y=rp_ar$activity_review,
+#     main="Review period of change ~ Review activity of author",
+#     type="p",
+#     log="")  # scatterplot
+#
+# plot(x=rp_aab$DATEDIFF.hist2.hist_createdTime..hist1.hist_createdTime.,
+#     y=rp_aab$activity_approval_blocking,
+#     main="Review period of change ~ Approval/blocking activity of author",
+#     type="p",
+#     log="")  # scatterplot
+
 
 # ##Generate some data
 # dd <- data.frame(a = 1:4, b= 1:0, c=0:3)

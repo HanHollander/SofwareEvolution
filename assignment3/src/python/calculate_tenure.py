@@ -21,13 +21,12 @@ def format_value_to_int(dict):
 
 # (file, folder, format1, format2)
 files = [
-    ('change-author', 'dependent', format_key_to_int, format_value_to_int),
-    ('change-created', 'dependent', format_key_to_int, format_value_to_datetime),
+    ('change-author', 'dependent/helper', format_key_to_int, format_value_to_int),
+    ('change-created', 'dependent/helper', format_key_to_int, format_value_to_datetime),
     ('author-first_change', 'predictor/helper', format_key_to_int, format_value_to_datetime),
     ('author-first_review', 'predictor/helper', format_key_to_int, format_value_to_datetime),
     ('author-first_approval_blocking', 'predictor/helper', format_key_to_int, format_value_to_datetime),
 ]
-
 
 tenures = [
     ('change-tenure_change', 'author-first_change'),
@@ -43,7 +42,6 @@ def get_dict_from_file(file):
         next(reader, None)
         result = dict(reader)
     return result
-
 
 def get_data(project):
     result = {}
@@ -63,9 +61,9 @@ def generate_tenures(project):
             os.remove(path)
         out = open(path, 'w+')
         out.write('ch_changeIdNum,' + tenure[7:] + '\n')
-        for change in data['change-author'].keys():
+        for (change, author) in data['change-author'].items():
             try:
-                tenure_value = (data['change-created'][change] - data[source][data['change-author'][change]]).days
+                tenure_value = (data['change-created'][change] - data[source][author]).days
                 out.write(str(change) + ',' + str(tenure_value)+ '\n')
             except KeyError as e:
                 if source == 'author-first_change':
