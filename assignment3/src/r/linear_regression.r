@@ -1,4 +1,3 @@
-
 review_period <- read.csv(file="../../data/csv/eclipse/dependent/change-review_period.csv",header=TRUE,sep=",")
 tenure_change <- read.csv(file="../../data/csv/eclipse/predictor/change-tenure_change.csv",header=TRUE,sep=",")
 tenure_review <- read.csv(file="../../data/csv/eclipse/predictor/change-tenure_review.csv",header=TRUE,sep=",")
@@ -18,12 +17,24 @@ rp_aab <- merge(review_period, activity_approval_blocking, by = "ch_changeIdNum"
 print(names(rp_ac))
 print(names(rp_aab))
 
+boxplot(rp_tc$DATEDIFF.hist2.hist_createdTime..hist1.hist_createdTime.,
+    main="Review period of change", log = "y", col = "bisque")
+
+plot(density(rp_tc$DATEDIFF.hist2.hist_createdTime..hist1.hist_createdTime.),
+    main="Density Plot: Review period of change", ylab="Frequency", log="x")  # density plot for 'speed'
+# polygon(density(rp_tc$DATEDIFF.hist2.hist_createdTime..hist1.hist_createdTime.), col="blue")
+
 plot(x=rp_tc$DATEDIFF.hist2.hist_createdTime..hist1.hist_createdTime.,
     y=rp_tc$tenure_change,
     main="Review period of change ~ Change (ecosystem) tenure of author",
     type="p",
     log="")  # scatterplot
 
+boxplot(rp_tc$tenure_change,
+    main="Change (ecosystem) tenure of author", log = "y", col = "bisque")
+
+plot(density(rp_tc$tenure_change),
+    main="Density Plot: Change (ecosystem) tenure of author", ylab="Frequency", log="x")
 
 plot(x=rp_tr$DATEDIFF.hist2.hist_createdTime..hist1.hist_createdTime.,
     y=rp_tr$tenure_review,
