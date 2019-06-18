@@ -1,11 +1,12 @@
--- WOULD PROBABLY WORK, BUT CANT RUN (TIMEOUT AFTER 30 SECONDS)...
-
 SELECT
-	rev_changeId,
-    SUM(f_linesInserted)
+	rev_changeId as ch_changeIdNum,
+    SUM(f_linesInserted) as s
 FROM
-	gm_eclipse.t_revision,
-	gm_eclipse.t_file
+ --   gm_eclipse.t_file as f,
+ --   gm_eclipse.t_revision as rev
+  gm_libreoffice.t_file as f,
+  gm_libreoffice.t_revision as rev
 WHERE
-	f_revisionId = rev_id
-GROUP BY rev_changeId
+	f_revisionId = rev.id
+GROUP BY
+    rev_changeId
